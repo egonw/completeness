@@ -9,18 +9,34 @@ datasets = rdf.sparqlRemote(sparqlEP, findDatasets)
 
 toCheck = [
   "physchem" : [
-    props : [ "NPO_274", "NPO_1694" ],
+    props : [ "NPO_1967", "NPO_274", "NPO_1694", "NPO_1697", "NPO_1235", "NPO_1812", "NPO_1302" ],
   ]
 ]
 propertiesToTest = [
+  "NPO_1967" : [
+    label      : "Aggregation",
+  ],
   "NPO_274" : [
-    label      : "NPO_274",
+    label      : "Shape",
   ],
   "NPO_1694" : [
-    label  : "NPO_1694",
-  ]
+    label      : "Particle size",
+  ],
+  "NPO_1697" : [
+    label      : "Size distribution",
+  ],
+  "NPO_1235" : [
+    label      : "Surface area",
+  ],
+  "NPO_1812" : [
+    label      : "Surface charge",
+  ],
+  "NPO_1302" : [
+    label      : "Zeta potential",
+  ],
 ]
 
+scores = new ArrayList();
 // iterate over all data sets
 for (int i=1; i<=datasets.rowCount; i++) {
   uri = datasets.get(i, "thing")
@@ -65,7 +81,9 @@ for (int i=1; i<=datasets.rowCount; i++) {
         }
       }
     }
-    completenessReport.forceNewLine().addText("Score: " + (score/maxScore)*100 + " %").forceNewLine()
+    scorePercentage = Math.round((score/maxScore)*100)
+    completenessReport.forceNewLine().addText("Score: " + scorePercentage + " %").forceNewLine()
+    scores.add(scorePercentage)
     if (missingProperties.size() > 0) {
       errorMessage = "Missing data for: "
       for (String prop : missingProperties) {
@@ -78,3 +96,4 @@ for (int i=1; i<=datasets.rowCount; i++) {
 
 if (ui.fileExists(outputFilename)) ui.remove(outputFilename)
 output = ui.newFile(outputFilename, report.asHTML(completenessReport) )
+

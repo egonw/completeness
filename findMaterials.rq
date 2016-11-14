@@ -1,0 +1,10 @@
+PREFIX void:    <http://rdfs.org/ns/void#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX obo:     <http://purl.obolibrary.org/obo/>
+
+SELECT DISTINCT ?substance WHERE {
+  BIND (<${uri}> as ?dataset)
+  ?dataset a void:Dataset .
+  ?substance a obo:CHEBI_59999 ;
+    dcterms:source ?dataset .
+} LIMIT 50

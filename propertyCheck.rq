@@ -1,0 +1,23 @@
+prefix obo: <http://purl.obolibrary.org/obo/>
+prefix bao: <http://www.bioassayontology.org/bao#>
+prefix sso: <http://semanticscience.org/resource/>
+prefix npo: <http://purl.bioontology.org/ontology/npo#>
+prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+prefix dc:    <http://purl.org/dc/elements/1.1/>
+        
+select distinct ?type ?title ?value ?unit where {
+  BIND (<${materialURI}> as ?substance)
+  BIND (npo:${prop} as ?propertyType)
+  { ?assay a ?propertyType . }
+  UNION
+  { ?assay a [ rdfs:subClassOf+ ?propertyType ] }
+  ?substance a obo:CHEBI_59999 ;
+             obo:BFO_0000056 ?mgroup .
+  ?mgroup obo:OBI_0000299 ?endpoint .
+  ?endpoint sso:has-value ?value ;
+            sso:has-unit ?unit .
+  ?assay a bao:BAO_0000015, ?type ;
+    bao:BAO_0000209 ?mgroup ;
+    dc:title ?title .
+  FILTER (?type != bao:BAO_0000015)
+} ORDER BY ASC(?substance)

@@ -14,7 +14,7 @@ toCheck = [
 ]
 propertiesToTest = [
   "NPO_274" : [
-    label  : "NPO_274",
+    label      : "NPO_274",
   ],
   "NPO_1694" : [
     label  : "NPO_1694",
@@ -45,31 +45,33 @@ for (int i=1; i<=datasets.rowCount; i++) {
       completenessReport.startSubSection(materialURI);
     }
 
+	maxScore = 0
+	score = 0
+    missingProperties = new ArrayList()
     for (String group : toCheck.keySet()) {
-      missingProperties = new ArrayList()
       for (String prop : toCheck[group].props) {
         // completenessReport.addText("Property: ${prop}")
+        maxScore++
         propertyCheck = ui.readFile("/D5.6 - Completeness/propertyCheck.rq")
         propertyCheck = propertyCheck.replace("\${materialURI}", materialURI)
         propertyCheck = propertyCheck.replace("\${prop}", prop)
         propertyData = rdf.sparqlRemote(sparqlEP, propertyCheck)
         if (propertyData.rowCount > 0) {
-          // completenessReport.addText("data for $prop").forceNewLine()
           // OK, data found!
-          completenessReport.addTable(propertyData, prop);
+          completenessReport.addTable(propertyData, propertiesToTest[prop].label);
+          score++
         } else {
           missingProperties.add(prop)
         }
       }
-      if (missingProperties.size() > 0) {
-        errorMessage = "Missing data for: "
-        for (String prop : missingProperties) {
-          errorMessage += prop + " "
-        }
-        completenessReport.addText(errorMessage).forceNewLine()
-      } else {
-        completenessReport.addText("All expected data found!").forceNewLine()
+    }
+    completenessReport.forceNewLine().addText("Score: " + (score/maxScore)*100 + " %").forceNewLine()
+    if (missingProperties.size() > 0) {
+      errorMessage = "Missing data for: "
+      for (String prop : missingProperties) {
+        errorMessage += propertiesToTest[prop].label + " "
       }
+      completenessReport.addText(errorMessage).forceNewLine()
     }
   }
 }

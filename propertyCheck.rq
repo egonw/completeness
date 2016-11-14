@@ -5,7 +5,7 @@ prefix npo: <http://purl.bioontology.org/ontology/npo#>
 prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
 prefix dc:    <http://purl.org/dc/elements/1.1/>
         
-select distinct ?type ?title ?value ?unit where {
+select distinct ?type ?title ?assaySpec ?value ?unit where {
   BIND (<${materialURI}> as ?substance)
   BIND (npo:${prop} as ?propertyType)
   { ?assay a ?propertyType . }
@@ -19,5 +19,6 @@ select distinct ?type ?title ?value ?unit where {
   ?assay a bao:BAO_0000015, ?type ;
     bao:BAO_0000209 ?mgroup ;
     dc:title ?title .
+  OPTIONAL { ?assay bao:BAO_0002846/dc:title ?assaySpec }
   FILTER (?type != bao:BAO_0000015)
 } ORDER BY ASC(?substance)

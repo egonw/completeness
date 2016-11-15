@@ -1,6 +1,7 @@
 sparqlEP = "http://127.0.0.1:9999/blazegraph/sparql" // using a local Blazegraph instance
 
 outputFilename = "/D5.6 - Completeness/foo.html"
+scoresOutputFilename = "/D5.6 - Completeness/foo.csv"
 completenessReport = report.createReport();
 
 findDatasets = ui.readFile("/D5.6 - Completeness/findDatasets.rq")
@@ -36,7 +37,7 @@ propertiesToTest = [
   ],
 ]
 
-scores = new ArrayList();
+scoresList = "score\n"
 // iterate over all data sets
 for (int i=1; i<=datasets.rowCount; i++) {
   uri = datasets.get(i, "thing")
@@ -83,7 +84,7 @@ for (int i=1; i<=datasets.rowCount; i++) {
     }
     scorePercentage = Math.round((score/maxScore)*100)
     completenessReport.forceNewLine().addText("Score: " + scorePercentage + " %").forceNewLine()
-    scores.add(scorePercentage)
+    scoresList += "" + scorePercentage + "\n"
     if (missingProperties.size() > 0) {
       errorMessage = "Missing data for: "
       for (String prop : missingProperties) {
@@ -97,3 +98,5 @@ for (int i=1; i<=datasets.rowCount; i++) {
 if (ui.fileExists(outputFilename)) ui.remove(outputFilename)
 output = ui.newFile(outputFilename, report.asHTML(completenessReport) )
 
+if (ui.fileExists(scoresOutputFilename)) ui.remove(scoresOutputFilename)
+scoresOutput = ui.newFile(scoresOutputFilename, scoresList )

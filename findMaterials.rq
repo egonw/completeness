@@ -7,4 +7,4 @@ SELECT DISTINCT ?substance WHERE {
   ?dataset a void:Dataset .
   ?substance a obo:CHEBI_59999 ;
     dcterms:source ?dataset .
-} LIMIT 20
+}

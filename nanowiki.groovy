@@ -16,24 +16,31 @@ toCheck = [
 propertiesToTest = [
   "NPO_1967" : [
     label      : "Aggregation",
+    score      : 1.0
   ],
   "NPO_274" : [
     label      : "Shape",
+    score      : 0.5               // not at all reported, half bonus
   ],
   "NPO_1694" : [
     label      : "Particle size",
+    score      : 0.5               // either particle size or distribution
   ],
   "NPO_1697" : [
     label      : "Size distribution",
+    score      : 0.5               // either particle size or distribution
   ],
   "NPO_1235" : [
     label      : "Surface area",
+    score      : 0.0               // not at all reported
   ],
   "NPO_1812" : [
     label      : "Surface charge",
+    score      : 1.0
   ],
   "NPO_1302" : [
     label      : "Zeta potential",
+    score      : 1.0
   ],
 ]
 
@@ -68,7 +75,7 @@ for (int i=1; i<=datasets.rowCount; i++) {
     for (String group : toCheck.keySet()) {
       for (String prop : toCheck[group].props) {
         // completenessReport.addText("Property: ${prop}")
-        maxScore++
+        maxScore += propertiesToTest[prop].score
         propertyCheck = ui.readFile("/D5.6 - Completeness/propertyCheck.rq")
         propertyCheck = propertyCheck.replace("\${materialURI}", materialURI)
         propertyCheck = propertyCheck.replace("\${prop}", prop)

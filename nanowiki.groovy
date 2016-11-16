@@ -18,42 +18,50 @@ propertiesToTest = [
   "NPO_1967" : [
     label      : "Aggregation",
     score      : 1.0,
-    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1967"
+    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1967",
+    query      : "propertyCheck"
   ],
   "NPO_274" : [
     label      : "Shape",
     score      : 0.5,              // not at all reported, half bonus
-    iri        : "http://purl.bioontology.org/ontology/npo#NPO_274"
+    iri        : "http://purl.bioontology.org/ontology/npo#NPO_274",
+    query      : "propertyCheck"
   ],
   "NPO_1694" : [
     label      : "Particle size",
     score      : 0.5,              // either particle size or distribution
-    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1694"
+    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1694",
+    query      : "propertyCheck"
   ],
   "NPO_1697" : [
     label      : "Size distribution",
     score      : 0.5,              // either particle size or distribution
-    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1697"
+    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1697",
+    query      : "propertyCheck"
   ],
   "NPO_1235" : [
     label      : "Surface area",
     score      : 0.0,              // not at all reported
-    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1235"
+    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1235",
+    query      : "propertyCheck"
   ],
   "NPO_1812" : [
     label      : "Surface charge",
     score      : 1.0,
-    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1812"
+    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1812",
+    query      : "propertyCheck"
   ],
   "NPO_1302" : [
     label      : "Zeta potential",
     score      : 1.0,
-    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1302"
+    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1302",
+    query      : "propertyCheck"
   ],
   "PATO_0001536" : [
     label      : "Solubility",
     score      : 1.0,
-    iri        : "http://purl.obolibrary.org/obo/PATO_0001536"
+    iri        : "http://purl.obolibrary.org/obo/PATO_0001536",
+    query      : "propertyCheck"
   ],
 ]
 
@@ -93,7 +101,7 @@ for (int i=1; i<=datasets.rowCount; i++) {
       for (String prop : toCheck[group].props) {
         // completenessReport.addText("Property: ${prop}")
         maxScore += propertiesToTest[prop].score
-        propertyCheck = ui.readFile("/D5.6 - Completeness/propertyCheck.rq")
+        propertyCheck = ui.readFile("/D5.6 - Completeness/${propertiesToTest[prop].query}.rq")
         propertyCheck = propertyCheck.replace("\${materialURI}", materialURI)
         propertyCheck = propertyCheck.replace("\${prop}", propertiesToTest[prop].iri)
         propertyData = rdf.sparqlRemote(sparqlEP, propertyCheck)

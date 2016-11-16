@@ -78,6 +78,10 @@ for (int i=1; i<=datasets.rowCount; i++) {
     nameData = rdf.sparqlRemote(sparqlEP, nameLookup)
     if (nameData.rowCount > 0) {
       completenessReport.startSubSection(nameData.get(1,"label"));
+      completenessReport.addLink(
+        materialURI.replace("localhost/ambit2","data.enanomapper.net")+"/study",
+        "Open in eNanoMapper"
+      ).forceNewLine()
     } else {
       completenessReport.startSubSection(materialURI);
     }

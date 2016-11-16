@@ -7,7 +7,7 @@ prefix dc:    <http://purl.org/dc/elements/1.1/>
         
 select distinct ?type ?title ?assaySpec ?value ?unit where {
   BIND (<${materialURI}> as ?substance)
-  BIND (npo:${prop} as ?propertyType)
+  BIND (<${prop}> as ?propertyType)
   { ?assay a ?propertyType . }
   UNION
   { ?assay a [ rdfs:subClassOf+ ?propertyType ] }

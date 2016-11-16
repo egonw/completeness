@@ -10,37 +10,50 @@ datasets = rdf.sparqlRemote(sparqlEP, findDatasets)
 
 toCheck = [
   "physchem" : [
-    props : [ "NPO_1967", "NPO_274", "NPO_1694", "NPO_1697", "NPO_1235", "NPO_1812", "NPO_1302" ],
+    props : [ "NPO_1967", "NPO_274", "NPO_1694", "NPO_1697", "NPO_1235",
+              "NPO_1812", "NPO_1302", "PATO_0001536" ],
   ]
 ]
 propertiesToTest = [
   "NPO_1967" : [
     label      : "Aggregation",
-    score      : 1.0
+    score      : 1.0,
+    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1967"
   ],
   "NPO_274" : [
     label      : "Shape",
-    score      : 0.5               // not at all reported, half bonus
+    score      : 0.5,              // not at all reported, half bonus
+    iri        : "http://purl.bioontology.org/ontology/npo#NPO_274"
   ],
   "NPO_1694" : [
     label      : "Particle size",
-    score      : 0.5               // either particle size or distribution
+    score      : 0.5,              // either particle size or distribution
+    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1694"
   ],
   "NPO_1697" : [
     label      : "Size distribution",
-    score      : 0.5               // either particle size or distribution
+    score      : 0.5,              // either particle size or distribution
+    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1697"
   ],
   "NPO_1235" : [
     label      : "Surface area",
-    score      : 0.0               // not at all reported
+    score      : 0.0,              // not at all reported
+    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1235"
   ],
   "NPO_1812" : [
     label      : "Surface charge",
-    score      : 1.0
+    score      : 1.0,
+    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1812"
   ],
   "NPO_1302" : [
     label      : "Zeta potential",
-    score      : 1.0
+    score      : 1.0,
+    iri        : "http://purl.bioontology.org/ontology/npo#NPO_1302"
+  ],
+  "PATO_0001536" : [
+    label      : "Solubility",
+    score      : 1.0,
+    iri        : "http://purl.obolibrary.org/obo/PATO_0001536"
   ],
 ]
 
@@ -78,7 +91,7 @@ for (int i=1; i<=datasets.rowCount; i++) {
         maxScore += propertiesToTest[prop].score
         propertyCheck = ui.readFile("/D5.6 - Completeness/propertyCheck.rq")
         propertyCheck = propertyCheck.replace("\${materialURI}", materialURI)
-        propertyCheck = propertyCheck.replace("\${prop}", prop)
+        propertyCheck = propertyCheck.replace("\${prop}", propertiesToTest[prop].iri)
         propertyData = rdf.sparqlRemote(sparqlEP, propertyCheck)
         if (propertyData.rowCount > 0) {
           // OK, data found!

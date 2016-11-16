@@ -1,0 +1,14 @@
+PREFIX CHEBI:   <http://purl.obolibrary.org/obo/CHEBI_>
+PREFIX npo:     <http://purl.bioontology.org/ontology/npo#>
+PREFIX cheminf: <http://semanticscience.org/resource/>
+
+select distinct ?type ?name ?smiles where {
+  BIND (<${materialURI}> as ?substance)
+  BIND (<${prop}> as ?propertyType)
+  ?substance a CHEBI:59999 ;
+    npo:has_part ?component .
+  ?component a ?type .
+  OPTIONAL { ?component ?nameFeature ?name }
+  OPTIONAL { ?component cheminf:CHEMINF_000200/cheminf:SIO_000300 ?smiles }
+  FILTER (regex(str(?nameFeature), "feature/NamesIUPAC"))
+}

@@ -11,10 +11,16 @@ datasets = rdf.sparqlRemote(sparqlEP, findDatasets)
 toCheck = [
   "physchem" : [
     props : [ "NPO_1967", "NPO_274", "NPO_1694", "NPO_1697", "NPO_1235",
-              "NPO_1812", "NPO_1302", "PATO_0001536" ],
+              "NPO_1812", "NPO_1302", "PATO_0001536", "C53414" ],
   ]
 ]
 propertiesToTest = [
+  "C53414" : [
+    label      : "Composition",
+    score      : 1.0,
+    iri        : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C53414",
+    query      : "compositionCheck"
+  ],
   "NPO_1967" : [
     label      : "Aggregation",
     score      : 1.0,
